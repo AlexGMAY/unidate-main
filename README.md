@@ -1,10 +1,7 @@
-# Match Me App
+# Unidate App
 
 > A full-stack dating application built with Next.js 14, Prisma, NextAuth, Pusher, and Cloudinary. 
 
-## URL
-
-[YouTube App Demo](https://youtu.be/HqlJjX9uIuk)
 
 ## Tools
 
