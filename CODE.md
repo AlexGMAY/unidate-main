@@ -1,4 +1,4 @@
-# CLAUDE.md
+# CODE.md
 
 Ce fichier fournit des instructions pour mieux travailler avec le code de ce dépôt.
 

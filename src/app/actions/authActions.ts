@@ -17,13 +17,13 @@ export async function signInUser(data: LoginSchema): Promise<ActionResult<string
 
         if (!existingUser || !existingUser.email) return { status: 'error', error: 'Invalid credentials' }
 
-        if (!existingUser.emailVerified) {
-            const { token, email } = await generateToken(existingUser.email, TokenType.VERIFICATION);
+        // if (!existingUser.emailVerified) {
+        //     const { token, email } = await generateToken(existingUser.email, TokenType.VERIFICATION);
 
-            await sendVerificationEmail(email, token)
+        //     await sendVerificationEmail(email, token)
 
-            return { status: 'error', error: 'Please verify your email before logging in' }
-        }
+        //     return { status: 'error', error: 'Please verify your email before logging in' }
+        // }
 
         await signIn('credentials', {
             email: data.email,
