@@ -33,7 +33,9 @@ export function truncateString(text?: string | null, num = 50) {
 }
 
 export function createChatId(a: string, b: string) {
-    return a > b ? `${b}-${a}` : `${a}-${b}`
+    const [first, second] = [a, b].sort();
+    // return a > b ? `${b}-${a}` : `${a}-${b}`
+    return `chat_${first}_${second}`; //safe : only underscore
 }
 
 export function timeAgo(date: string) {

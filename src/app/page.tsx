@@ -113,14 +113,8 @@ export default async function Home() {
                </div>
              </DynamicScrollAnimation>
           </div>
-        </div>
+        </div>      
         
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-pink-400 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-pink-500 rounded-full mt-2 animate-pulse" />
-          </div>
-        </div>
       </section>
 
       {/* Features Section with Scroll Animations */}

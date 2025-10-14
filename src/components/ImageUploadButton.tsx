@@ -21,12 +21,13 @@ export default function ImageUploadButton({
       options={{ maxFiles: 1 }}
       onSuccess={onUploadImage}
       signatureEndpoint="/api/sign-image"
-      uploadPreset="matchme-demo"
-      className={`flex items-center gap-2 border-2 border-default text-default 
-        rounded-lg py-2 px-4 hover:bg-default/10`}
+      uploadPreset="unidate-demo"
+      className={`flex items-center gap-3 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500
+        to-pink-500 text-white font-medium px-6 py-2 shadow-md transition-all duration-200 
+        hover:scale-105 hover:shadow-lg active:scale-95`}
     >
-      <HiPhoto size={28} />
-      Upload new image
+      <HiPhoto size={22} className="opacity-90" />
+      <span>Upload Image</span>
     </CldUploadButton>
   );
 }

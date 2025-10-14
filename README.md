@@ -1,6 +1,6 @@
 # Unidate App
 
-> A full-stack dating application built with Next.js 14, Prisma, NextAuth, Pusher, and Cloudinary. 
+> A full-stack dating application built with Next.js 14, Prisma, NextAuth, Pusher, Cloudinary and Resend. 
 
 
 ## Tools

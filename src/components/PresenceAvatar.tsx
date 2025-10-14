@@ -5,11 +5,13 @@ import React from "react";
 type Props = {
   userId?: string;
   src?: string | null;
+  className: string | null;
 };
 
 export default function PresenceAvatar({
   userId,
   src,
+  className,
 }: Props) {
   const { membersId } = usePresenceStore(
     (state) => ({

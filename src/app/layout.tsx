@@ -30,7 +30,7 @@ export default async function RootLayout({
           userId={userId}
         >
           <TopNav />
-          <main className="container mx-auto">
+          <main className="w-full">
             {children}
           </main>
         </Providers>
