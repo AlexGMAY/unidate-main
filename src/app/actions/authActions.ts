@@ -74,6 +74,7 @@ export async function registerUser(data: RegisterSchema): Promise<ActionResult<U
                 name,
                 email,
                 passwordHash: hashedPassword,
+                profileComplete: true,
                 member: {
                     create: {
                         name,
@@ -210,30 +211,70 @@ export async function resetPassword(password: string, token: string | null): Pro
     }
 }
 
-export async function completeSocialLoginProfile(data: ProfileSchema):
-    Promise<ActionResult<string>> {
+export async function completeSocialLoginProfile(data: ProfileSchema): Promise<ActionResult<string>> {
 
     const session = await auth();
 
     if (!session?.user) return { status: 'error', error: 'User not found' };
 
     try {
-        const user = await prisma.user.update({
+        // First, check if user already has a member record and profile is complete
+        const existingUser = await prisma.user.findUnique({
             where: { id: session.user.id },
-            data: {
-                profileComplete: true,
-                member: {
-                    create: {
-                        name: session.user.name as string,
-                        image: session.user.image,
-                        gender: data.gender,
-                        dateOfBirth: new Date(data.dateOfBirth),
-                        description: data.description,
-                        city: data.city,
-                        country: data.country
+            include: { member: true }
+        });
+
+        if (!existingUser) {
+            return { status: 'error', error: 'User not found' };
+        }
+
+        // If profile is already complete, just return success
+        if (existingUser.profileComplete) {
+            return { status: 'success', data: 'Profile already completed' };
+        }
+
+        // If member already exists, update it instead of creating new
+        if (existingUser.member) {
+            // Update existing member with new data
+            await prisma.user.update({
+                where: { id: session.user.id },
+                data: {
+                    profileComplete: true,
+                    member: {
+                        update: {
+                            gender: data.gender,
+                            dateOfBirth: new Date(data.dateOfBirth),
+                            description: data.description,
+                            city: data.city,
+                            country: data.country
+                        }
                     }
                 }
-            },
+            });
+        } else {
+            // Only create member if it doesn't exist (for social logins)
+            await prisma.user.update({
+                where: { id: session.user.id },
+                data: {
+                    profileComplete: true,
+                    member: {
+                        create: {
+                            name: session.user.name as string,
+                            image: session.user.image,
+                            gender: data.gender,
+                            dateOfBirth: new Date(data.dateOfBirth),
+                            description: data.description,
+                            city: data.city,
+                            country: data.country
+                        }
+                    }
+                }
+            });
+        }
+
+        // Get the provider for response
+        const userWithAccount = await prisma.user.findUnique({
+            where: { id: session.user.id },
             select: {
                 accounts: {
                     select: {
@@ -241,12 +282,12 @@ export async function completeSocialLoginProfile(data: ProfileSchema):
                     }
                 }
             }
-        })
+        });
 
-        return { status: 'success', data: user.accounts[0].provider }
+        return { status: 'success', data: userWithAccount?.accounts[0]?.provider || 'credentials' }
     } catch (error) {
         console.log(error);
-        throw error;
+        return { status: 'error', error: 'Failed to complete profile' }
     }
 }
 

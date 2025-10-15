@@ -1,83 +1,3 @@
-// "use client";
-
-// import CardWrapper from "@/components/CardWrapper";
-// import {
-//   ProfileSchema,
-//   profileSchema,
-// } from "@/lib/schemas/RegisterSchema";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import {
-//   FormProvider,
-//   useForm,
-// } from "react-hook-form";
-// import { RiProfileLine } from "react-icons/ri";
-// import ProfileForm from "../register/ProfileDetailsForm";
-// import { Button } from "@nextui-org/react";
-// import { completeSocialLoginProfile } from "@/app/actions/authActions";
-// import { signIn } from "next-auth/react";
-
-// export default function CompleteProfileForm() {
-//   const methods = useForm<ProfileSchema>({
-//     resolver: zodResolver(profileSchema),
-//     mode: "onTouched",
-//   });
-
-//   const {
-//     handleSubmit,
-//     formState: { errors, isSubmitting, isValid },
-//   } = methods;
-
-//   const onSubmit = async (
-//     data: ProfileSchema
-//   ) => {
-//     const result =
-//       await completeSocialLoginProfile(data);
-
-//     if (result.status === "success") {
-//       signIn(result.data, {
-//         callbackUrl: "/members",
-//       });
-//     }
-//   };
-
-//   return (
-//     <CardWrapper
-//       headerText="About you"
-//       subHeaderText="Please complete your profile to continue to the app"
-//       headerIcon={RiProfileLine}
-//       body={
-//         <FormProvider {...methods}>
-//           <form onSubmit={handleSubmit(onSubmit)}>
-//             <div className="space-y-4">
-//               <ProfileForm />
-//               {errors.root?.serverError && (
-//                 <p className="text-danger text-sm">
-//                   {
-//                     errors.root.serverError
-//                       .message
-//                   }
-//                 </p>
-//               )}
-//               <div className="flex flex-row items-center gap-6">
-//                 <Button
-//                   isLoading={isSubmitting}
-//                   isDisabled={!isValid}
-//                   fullWidth
-//                   color="default"
-//                   type="submit"
-//                 >
-//                   Submit
-//                 </Button>
-//               </div>
-//             </div>
-//           </form>
-//         </FormProvider>
-//       }
-//     />
-//   );
-// }
-
-
 "use client";
 
 import CardWrapper from "@/components/CardWrapper";
@@ -94,13 +14,15 @@ import { RiProfileLine } from "react-icons/ri";
 import ProfileForm from "../register/ProfileDetailsForm";
 import { Button } from "@nextui-org/react";
 import { completeSocialLoginProfile } from "@/app/actions/authActions";
-import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function CompleteProfileForm() {
   const methods = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
     mode: "onTouched",
   });
+  
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -111,9 +33,10 @@ export default function CompleteProfileForm() {
     const result = await completeSocialLoginProfile(data);
 
     if (result.status === "success") {
-      signIn(result.data, {
-        callbackUrl: "/members",
-      });
+      router.refresh(); // Refresh the session
+      router.push("/members"); // Redirect to members page
+      // Force full page reload to refresh auth session
+      // window.location.href = "/members";
     }
   };
 
