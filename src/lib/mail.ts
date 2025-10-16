@@ -7,7 +7,7 @@ export async function sendVerificationEmail(email: string, token: string) {
     const link = `${baseUrl}/verify-email?token=${token}`;
 
     return resend.emails.send({
-        from: 'testing@resend.dev',
+        from: 'onboarding@resend.dev',
         to: email,
         subject: 'Verify your email address',
         html: `
