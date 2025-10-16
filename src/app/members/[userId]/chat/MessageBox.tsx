@@ -34,7 +34,8 @@ export default function MessageBox({
     <div className="self-end">
       <PresenceAvatar
         src={message.senderImage}
-        userId={message.senderId}
+        userId={message.senderId} 
+        className={null}
       />
     </div>
   );
