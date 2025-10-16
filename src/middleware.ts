@@ -1,48 +1,30 @@
 import { NextResponse } from 'next/server';
-import { auth } from './auth';
-import { authRoutes, publicRoutes } from './routes';
-import { Role } from '@prisma/client';
+import type { NextRequest } from 'next/server';
 
-export default auth((req) => {
+export default function middleware(req: NextRequest) {
     const { nextUrl } = req;
-    const isLoggedIn = !!req.auth;
+    const pathname = nextUrl.pathname;
 
-    const isPublic = publicRoutes.includes(nextUrl.pathname);
-    const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-    const isProfileComplete = req.auth?.user.profileComplete;
-    const isAdmin = req.auth?.user.role === Role.ADMIN;
-    const isAdminRoute = nextUrl.pathname.startsWith('/admin');
+    // Simple session check
+    const hasAuthCookie = req.cookies.get('next-auth.session-token')?.value 
+                       || req.cookies.get('__Secure-next-auth.session-token')?.value;
 
-    if (isPublic || isAdmin) {
-        return NextResponse.next();
+    // Public paths (adjust as needed)
+    const isPublic = ['/', '/login', '/register', '/about'].includes(pathname);
+    
+    // Auth pages - redirect if already logged in
+    if ((pathname === '/login' || pathname === '/register') && hasAuthCookie) {
+        return NextResponse.redirect(new URL('/members', nextUrl));
     }
-
-    if (isAdminRoute && !isAdmin) {
-        return NextResponse.redirect(new URL('/', nextUrl));
-    }
-
-    if (isAuthRoute) {
-        if (isLoggedIn) {
-            return NextResponse.redirect(new URL('/members', nextUrl))
-        }
-        return NextResponse.next();
-    }
-
-    if (!isPublic && !isLoggedIn) {
-        return NextResponse.redirect(new URL('/login', nextUrl))
-    }
-
-    if (isLoggedIn && !isProfileComplete && nextUrl.pathname !== '/complete-profile') {
-        return NextResponse.redirect(new URL('/complete-profile', nextUrl));
+    
+    // Protected pages - redirect to login if not authenticated
+    if (!hasAuthCookie && !isPublic) {
+        return NextResponse.redirect(new URL('/login', nextUrl));
     }
 
     return NextResponse.next();
-})
+}
 
-/**
- * This is a regular expression that will match any URL path 
- * that does not start with /api, /_next/static, /_next/image, or favicon.ico.
- */
 export const config = {
     matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
-}
+};
