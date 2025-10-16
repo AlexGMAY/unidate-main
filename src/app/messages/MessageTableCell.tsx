@@ -20,33 +20,35 @@ export default function MessageTableCell({
   deleteMessage,
   isDeleting,
 }: Props) {
-  const cellValue = item[columnKey as keyof MessageDto];
-
   switch (columnKey) {
     case "recipientName":
     case "senderName":
+      const nameValue = isOutbox ? item.recipientName : item.senderName;
+      const imageValue = isOutbox ? item.recipientImage : item.senderImage;
+      const userId = isOutbox ? item.recipientId : item.senderId;
+      
       return (
         <div className="flex items-center gap-3 cursor-pointer group">
           <PresenceAvatar
-            userId={isOutbox ? item.recipientId : item.senderId}
-            src={isOutbox ? item.recipientImage : item.senderImage}
+            userId={userId}
+            src={imageValue || undefined}
             className="transition-transform group-hover:scale-105"
           />
           <span className="font-medium text-gray-900 group-hover:text-gray-700 transition-colors">
-            {cellValue}
+            {nameValue}
           </span>
         </div>
       );
     case "text":
       return (
         <div className="text-gray-700 line-clamp-2 leading-relaxed">
-          {truncateString(cellValue, 80)}
+          {truncateString(item.text, 80)}
         </div>
       );
     case "created":
       return (
         <div className="text-sm text-gray-500 font-medium">
-          {new Date(cellValue).toLocaleDateString()}
+          {new Date(item.created).toLocaleDateString()}
         </div>
       );
     default:
