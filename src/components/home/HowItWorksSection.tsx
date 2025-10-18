@@ -100,16 +100,16 @@ export default function HowItWorksSection() {
                     </div>
                     {/* You can uncomment this when you have actual images */}
                     
-                    <Image
+                    {/* <Image
                       src={step.image}
                       alt={step.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      // onError={(e) => {
-                      //   // Fallback to icon if image fails to load
-                      //   e.currentTarget.style.display = 'none';
-                      // }}
-                    />
+                      onError={(e) => {
+                        // Fallback to icon if image fails to load
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    /> */}
                    
                     
                     {/* Gradient Overlay */}
