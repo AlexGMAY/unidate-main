@@ -9,8 +9,8 @@ export default function middleware(req: NextRequest) {
     const hasAuthCookie = req.cookies.get('next-auth.session-token')?.value 
                        || req.cookies.get('__Secure-next-auth.session-token')?.value;
 
-    // Public paths (adjust as needed)
-    const isPublic = ['/', '/login', '/register', '/about'].includes(pathname);
+    // Public paths
+    const isPublic = ['/', '/login', '/register', '/cookies', '/contact-us', '/help-center', '/terms', '/safety-tips', '/privacy-policy', '/community-guidelines'].includes(pathname);
     
     // Auth pages - redirect if already logged in
     if ((pathname === '/login' || pathname === '/register') && hasAuthCookie) {

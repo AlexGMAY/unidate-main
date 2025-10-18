@@ -1,4 +1,5 @@
 import { ZodIssue } from 'zod';
+import { Session } from "next-auth";
 
 type ActionResult<T> =
     { status: 'success', data: T } | { status: 'error', error: string | ZodIssue[] }
@@ -60,4 +61,31 @@ type GetMemberParams = {
     withPhoto?: string;
     pageNumber?: string;
     pageSize?: string;
+}
+export interface HomeSectionProps {
+  session: Session | null;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  status: string;
+  initials: string;
+  color: string;
+  quote: string;
+  image: string;
+}
+
+export interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface Step {
+  number: string;
+  title: string;
+  description: string;
+  image: string;
+  color: string;
 }

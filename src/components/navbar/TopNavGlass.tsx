@@ -63,14 +63,17 @@ export default async function TopNavGlass() {
         height="76px"
       >
         <NavbarBrand as={Link} href="/" className="gap-3 transition-transform hover:scale-[1.02]">
-          <div className="flex items-center justify-center bg-gradient-to-br from-pink-500/10 to-rose-500/10 p-2.5 rounded-xl backdrop-blur-sm">
-            <GiSelfLove size={34} className="text-pink-500 drop-shadow-sm" />
-          </div>
-          <div className="font-bold text-2xl flex">
-            <span className="text-slate-800 tracking-tight bg-clip-text bg-gradient-to-r from-slate-800 to-slate-700">
-              UniDate
-            </span>
-          </div>
+          <div className="flex items-center space-x-3 group">
+              <div className="flex items-center justify-center bg-gradient-to-r from-pink-500 to-rose-600 p-3 rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-2xl group-hover:shadow-pink-500/25">
+                <GiSelfLove size={28} className="text-white" />
+              </div>
+              <div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 text-transparent bg-clip-text">
+                  UniDate
+                </span>
+                <p className="text-xs text-rose-300 font-medium">Find Your Perfect Match</p>
+              </div>
+            </div>
         </NavbarBrand>
         
         <NavbarContent justify="center" className="gap-6">

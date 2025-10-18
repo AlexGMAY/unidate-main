@@ -57,14 +57,17 @@ export default async function TopNav() {
         height="70px"
       >
         <NavbarBrand as={Link} href="/" className="gap-2">
-          <div className="flex items-center justify-center bg-white/10 p-2 rounded-full transition-transform hover:scale-105">
-            <GiSelfLove size={32} className="text-white" />
-          </div>
-          <div className="font-bold text-2xl md:text-3xl flex">
-            <span className="text-white bg-clip-text bg-gradient-to-r from-white to-pink-100">
-              UniDate
-            </span>
-          </div>
+          <div className="flex items-center space-x-3 group">
+              <div className="flex items-center justify-center bg-gradient-to-r from-pink-500 to-rose-600 p-3 rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-2xl group-hover:shadow-pink-500/25">
+                <GiSelfLove size={28} className="text-white" />
+              </div>
+              <div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 text-transparent bg-clip-text">
+                  UniDate
+                </span>
+                <p className="text-xs text-rose-300 font-medium">Find Your Perfect Match</p>
+              </div>
+            </div>
         </NavbarBrand>
         
         <NavbarContent justify="center" className="gap-6">
